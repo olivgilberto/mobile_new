@@ -1,0 +1,21 @@
+name: adapter_sync_workmanager
+publish_to: none
+version: 0.1.0
+resolution: workspace
+
+environment:
+  sdk: ^3.13.4
+
+# Driven adapter for core's SyncScheduler port. Depends on core + one
+# technology (workmanager) only; never on get_it — the host app wires it.
+dependencies:
+  flutter:
+    sdk: flutter
+  core:
+  workmanager: ^0.10.10
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  mocktail: ^1.0.5
+  flutter_lints: ^6.0.0

@@ -1,0 +1,22 @@
+name: adapter_connectivity_connectivity_plus
+publish_to: none
+version: 0.1.0
+resolution: workspace
+
+environment:
+  sdk: ^3.13.4
+
+# Driven adapter for core's NetworkInterfaceMonitor port (layer 1: is there
+# a network interface?). Depends on core + one technology (connectivity_plus)
+# only; never on get_it — the host app wires it.
+dependencies:
+  flutter:
+    sdk: flutter
+  core:
+  connectivity_plus: ^7.3.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  mocktail: ^1.0.5

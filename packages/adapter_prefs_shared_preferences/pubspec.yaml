@@ -1,0 +1,22 @@
+name: adapter_prefs_shared_preferences
+publish_to: none
+version: 0.1.0
+resolution: workspace
+
+environment:
+  sdk: ^3.13.4
+
+# Driven adapter for core's AppPreferences port (non-sensitive values
+# only). Depends on core + one technology (shared_preferences) only; never
+# on get_it — the host app wires it.
+dependencies:
+  flutter:
+    sdk: flutter
+  core:
+  shared_preferences: ^2.5.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  mocktail: ^1.0.5

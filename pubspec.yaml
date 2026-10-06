@@ -1,0 +1,42 @@
+# Workspace root. Named after the project; the host app is
+# mobile_new_app.
+name: mobile_new
+publish_to: none
+
+environment:
+  sdk: ^3.13.4
+
+workspace:
+  - mobile_new_app
+  - packages/core
+  - packages/adapter_http_dio
+  - packages/adapter_db_sqlcipher
+  - packages/adapter_logging_crashlytics
+  - packages/adapter_sync_workmanager
+  - packages/adapter_prefs_shared_preferences
+  - packages/adapter_connectivity_connectivity_plus
+  - packages/design_system
+
+dev_dependencies:
+  melos: ^8.9.0
+
+# Melos ≥ 7 reads its configuration from here (melos.yaml is ignored).
+melos:
+  command:
+    version:
+      # Independent versioning driven by Conventional Commits (never lockstep).
+      conventionalCommits: true
+
+  scripts:
+    # `exec:` runs per package without a global melos install (CI uses
+    # `dart run melos <script>`).
+    analyze:
+      exec: dart analyze .
+    test:
+      exec: flutter test
+      packageFilters:
+        dirExists: test
+    build:prod:
+      exec: flutter build appbundle --flavor prod -t lib/main_prod.dart --dart-define-from-file=config/prod.json --obfuscate --split-debug-info=build/debug-info
+      packageFilters:
+        scope: mobile_new_app

@@ -1,0 +1,14 @@
+name: core
+publish_to: none
+version: 0.1.0
+resolution: workspace
+
+environment:
+  sdk: ^3.13.4
+
+# No dependencies: core is pure Dart — ports plus tech-free shared code,
+# never a third-party package (not even Flutter).
+
+dev_dependencies:
+  test: ^1.25.0
+  lints: ^6.1.0

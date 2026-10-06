@@ -1,0 +1,22 @@
+name: adapter_logging_crashlytics
+publish_to: none
+version: 0.1.0
+resolution: workspace
+
+environment:
+  sdk: ^3.13.4
+
+# Driven adapter for core's AppLogger port. Depends on core + one
+# technology (Firebase Crashlytics) only; never on get_it — the host app
+# wires it.
+dependencies:
+  flutter:
+    sdk: flutter
+  core:
+  firebase_crashlytics: ^5.4.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  mocktail: ^1.0.5
+  flutter_lints: ^6.0.0

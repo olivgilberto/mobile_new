@@ -1,0 +1,24 @@
+name: adapter_db_sqlcipher
+publish_to: none
+version: 0.1.0
+resolution: workspace
+
+environment:
+  sdk: ^3.13.4
+
+# Driven adapter for core's LocalDatabaseFactory/LocalDatabase ports.
+# Depends on core + one technology family (encrypted Sqlite, with its key in
+# secure storage and its files in the app's private support directory) only; never on get_it — the host app wires it.
+dependencies:
+  flutter:
+    sdk: flutter
+  core:
+  flutter_secure_storage: ^11.2.0
+  sqflite_sqlcipher: ^3.4.1
+  path_provider: ^2.1.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  sqflite_common_ffi: ^2.4.3
+  flutter_lints: ^6.0.0

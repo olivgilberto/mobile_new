@@ -1,0 +1,10 @@
+.dart_tool/
+build/
+.idea/
+*.iml
+.DS_Store
+pubspec_overrides.yaml
+# Firebase config is generated per developer/CI by `flutterfire configure`.
+mobile_new_app/lib/firebase_options.dart
+mobile_new_app/android/app/google-services.json
+mobile_new_app/ios/Runner/GoogleService-Info.plist

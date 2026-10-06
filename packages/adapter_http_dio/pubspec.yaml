@@ -1,0 +1,17 @@
+name: adapter_http_dio
+publish_to: none
+version: 0.1.0
+resolution: workspace
+
+environment:
+  sdk: ^3.13.4
+
+# Driven adapter for core's ApiClient port. Depends on core + one
+# technology (Dio) only; never on get_it — the host app wires it.
+dependencies:
+  core:
+  dio: ^5.11.1
+
+dev_dependencies:
+  test: ^1.25.0
+  lints: ^6.1.0
