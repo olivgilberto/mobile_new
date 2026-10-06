@@ -92,8 +92,13 @@ a binary and the only one allowed to depend on `adapter_*` packages.
   - Android: `productFlavors` with `applicationIdSuffix` (`.dev`,
     `.staging`) and a per-flavor `app_name` via `resValue`
     (`buildFeatures.resValues = true`).
-  - iOS: **not configured yet** — one scheme/Bundle ID per flavor still to
-    be created in Xcode.
+  - iOS: configurations `Debug/Release/Profile-{dev,staging,prod}`, one
+    shared scheme per flavor, per-configuration xcconfigs in
+    `ios/Flutter/` and the Podfile map; Bundle IDs
+    `com.example.mobileNew.dev`, `.staging` and `com.example.mobileNew`
+    (prod), display names via `APP_DISPLAY_NAME`. The base configurations
+    and the `Runner` scheme remain for Xcode tooling — always use
+    `--flavor`.
   - Distinct icon/splash per flavor: **not done yet**.
 - Run a flavor:
   `flutter run --flavor dev -t lib/main_dev.dart --dart-define-from-file=config/dev.json`
