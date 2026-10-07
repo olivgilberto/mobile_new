@@ -107,7 +107,9 @@ a binary and the only one allowed to depend on `adapter_*` packages.
   come from the CI provider's secrets.
 - Minimum OS: iOS 15.0 (required by Firebase); Android uses Flutter's
   default `minSdk`.
-- Build number comes from CI — never bumped by hand.
+- Build number must come from CI — never bumped by hand. **Not wired
+  yet**: CI has no release build job, so nothing sets the build number
+  today (see §12).
 
 ## 3. Dependency injection
 
@@ -129,6 +131,10 @@ a binary and the only one allowed to depend on `adapter_*` packages.
   `[module].[screen]` / `/[module]/[screen]`.
 - No auth guard yet: `redirect` + `refreshListenable` arrive with the
   authentication module.
+- Deep linking (Universal Links on iOS, App Links on Android): **not
+  configured yet** — no associated domains entitlement, no
+  `intent-filter` with `autoVerify`, no `apple-app-site-association` /
+  `assetlinks.json` on the backend.
 
 ## 5. Networking — `adapter_http_dio`
 
@@ -144,6 +150,10 @@ a binary and the only one allowed to depend on `adapter_*` packages.
   instance (no interceptors, 3 s timeout); any HTTP answer = reachable.
   Path `/v1/health` is a **placeholder** (see the decisions table).
 - Base URL from `API_BASE_URL` (`--dart-define-from-file`).
+- API versioning by URL path, **per module**: each feature module keeps
+  its backend paths in its own `[Name]ApiPaths` (one `version` constant,
+  e.g. `/v1`), so modules move to `/v2` independently. No shared API
+  version in `core`.
 - Android `network_security_config.xml`: cleartext disabled; the `dev`
   flavor overrides it to allow `10.0.2.2`/`localhost` only.
 
@@ -266,7 +276,8 @@ Material 3 token system, structure inspired by SAP Fiori (Android).
 ## 11. Security
 
 - No certificate pinning by default.
-- Production builds use `--obfuscate --split-debug-info` (`build:prod`).
+- Production builds use `--obfuscate --split-debug-info` (`build:prod`,
+  Android app bundle only; no iOS production script yet).
 - App Tracking Transparency: not needed until Analytics or another
   IDFA-accessing SDK is added.
 - Root/jailbreak detection: warn + disable sensitive features, never block
@@ -277,6 +288,11 @@ Material 3 token system, structure inspired by SAP Fiori (Android).
 - GitHub Actions (`.github/workflows/ci.yml`): `flutter pub get`,
   `dart run melos analyze`, `dart run melos test` on PRs and `main`.
 - Renovate (`renovate.json`): auto-merge patches, manual review for majors.
+- **Release pipeline: not created yet.** Pending: a release job that
+  builds Android (`build:prod`) and iOS (no `--obfuscate` iOS script
+  exists yet), sets the build number from the CI run number, signs both,
+  and archives `build/debug-info` as a CI artifact so Crashlytics stack
+  traces can be symbolicated.
 - Secrets via `--dart-define-from-file` + CI secrets; never
   `flutter_dotenv`.
 
@@ -296,12 +312,15 @@ Implemented in `mobile_new_app/lib/main_common.dart`:
 7. Force Update check — not integrated yet
 8. Terms re-consent — not applicable yet
 9. `runApp()`
-10. Deep links / auth redirect via go_router — once an authentication
-    module exists
+10. Deep links / auth redirect via go_router — auth redirect once an
+    authentication module exists; Universal Links / App Links not
+    configured yet (§4)
 
 ## 14. Governance
 
-- New modules via a Mason brick (not created yet), never copy/paste.
+- New modules via the `create-flutter-module` skill and its wiring
+  checklist, never copy/paste. No Mason brick (decided 2026-10-07): it
+  would duplicate the skill's template and not do the host wiring.
 - Package dependency rules to be enforced by a custom lint in CI (not
   created yet): no feature module imports another feature module or an
   `adapter_*` package; `core` has no dependencies; an `adapter_*` package
@@ -331,3 +350,8 @@ Implemented in `mobile_new_app/lib/main_common.dart`:
 - 2026-10-06, after the iOS backup exclusion: `adapter_db_sqlcipher` 5
   tests; simulator build installed and launched (first run on a
   simulator), backup-exclusion attribute confirmed.
+- 2026-10-07, iOS flavors: `flutter build ios --simulator --debug
+  --flavor <f>` succeeds for `dev`, `staging` and `prod`; built
+  `Info.plist` shows `com.example.mobileNew.dev` / `mobile_new dev`,
+  `com.example.mobileNew.staging` / `mobile_new staging` and
+  `com.example.mobileNew` / `mobile_new`. Not run on a device.

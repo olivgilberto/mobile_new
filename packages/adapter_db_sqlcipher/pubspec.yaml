@@ -8,7 +8,8 @@ environment:
 
 # Driven adapter for core's LocalDatabaseFactory/LocalDatabase ports.
 # Depends on core + one technology family (encrypted Sqlite, with its key in
-# secure storage and its files in the app's private support directory) only; never on get_it — the host app wires it.
+# secure storage and its files in the app's private support directory)
+# only; never on get_it — the host app wires it.
 dependencies:
   flutter:
     sdk: flutter
